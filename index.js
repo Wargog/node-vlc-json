@@ -43,26 +43,28 @@ var ex = module.exports = function(options) {
     args.push(options.vout);
   }
 
-  var player = child_process.spawn(options.player, args);
+  if (options.player !== 'none' ) {
+    var player = child_process.spawn(options.player, args);
 
-  if (options.log !== undefined) {
-    player.stdout.on('data', function(data) {
-      options.log(data);
-    });
+    if (options.log !== undefined) {
+      player.stdout.on('data', function(data) {
+        options.log(data);
+      });
 
-    player.stderr.on('data', function(data) {
-      options.log(data);
-    });
-  }
+      player.stderr.on('data', function(data) {
+        options.log(data);
+      });
+    }
 
-  if (options.logToConsole) {
-    player.stdout.on('data', function(data) {
-      console.log('[node-vlc-json] ' + data);
-    });
+    if (options.logToConsole) {
+      player.stdout.on('data', function(data) {
+        console.log('[node-vlc-json] ' + data);
+      });
 
-    player.stderr.on('data', function(data) {
-      console.log('[node-vlc-json] ' + data);
-    });
+      player.stderr.on('data', function(data) {
+        console.log('[node-vlc-json] ' + data);
+      });
+    }
   }
 
   return {
